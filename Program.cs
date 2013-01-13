@@ -21,6 +21,8 @@ namespace UnityVS
 				if (!Directory.Exists(assets))
 					Usage();
 
+				RegisterAssemblyResolveHook();
+
 				Run(Directory.EnumerateFiles(assets, "*.dll", SearchOption.AllDirectories).ToArray());
 			}
 			catch (Exception e)
@@ -37,8 +39,6 @@ namespace UnityVS
 
 		private static void Run(string[] assemblies)
 		{
-			RegisterAssemblyResolveHook();
-
 			var resolver = AssemblyResolverFor(assemblies);
 
 			foreach (var assembly in assemblies.Where(a => !Path.GetFileName(a).Contains("SyntaxTree.VisualStudio.Unity")))
